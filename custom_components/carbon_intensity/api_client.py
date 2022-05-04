@@ -1,6 +1,7 @@
 import logging
 import json
 import aiohttp
+from homeassistant.util.dt import (as_utc, parse_datetime)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -13,12 +14,18 @@ class CarbonIntensityApiClient:
     """Get the intensity and generation rates"""
     results = []
     async with aiohttp.ClientSession() as client:
-      auth = aiohttp.BasicAuth(self._api_key, '')
-      url = f'{self._base_url}regional/intensity/2022-05-01T09:51Z/{period_from.strftime("%Y-%m-%dT%H:%M:%SZ")}/fw48h/regionid/{region}'
-      async with client.get(url, auth=auth) as response:
+      url = f'{self._base_url}/regional/intensity/{period_from.strftime("%Y-%m-%dT%H:%M:%SZ")}/fw48h/regionid/{region}'
+      async with client.get(url) as response:
         try:
           data = await self.__async_read_response(response, url, { "data": [] })
-          results = data["data"]["data"]
+          if ("data" in data and "data" in data["data"]):
+            for item in data["data"]["data"]:
+              results.append({
+                "from": as_utc(parse_datetime(item["from"])),
+                "to": as_utc(parse_datetime(item["to"])),
+                "intensity_forecast": item["intensity"]["forecast"],
+                "generation_mix": item["generationmix"]
+              })
         except:
           _LOGGER.error(f'Failed to extract intensity and generation rates: {url}')
           raise

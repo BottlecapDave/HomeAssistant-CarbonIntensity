@@ -60,7 +60,7 @@ def validate_target_rate_sensor(data):
 
 def get_region_options():
   return {
-    "South West England": "11"
+    "11": "South West England"
   }
 
 class CarbonIntensityConfigFlow(ConfigFlow, domain=DOMAIN): 

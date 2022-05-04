@@ -48,7 +48,7 @@ def __get_applicable_rates(current_date, target_start_time, target_end_time, rat
   return applicable_rates
 
 def __get_intensity(rate):
-  return rate["intensity"]["forecast"]
+  return rate["intensity_forecast"]
 
 def __get_to(rate):
   return rate["to"]
@@ -65,13 +65,13 @@ def calculate_continuous_times(current_date, target_start_time, target_end_time,
   # hours and has the lowest combined rates
   for index, rate in enumerate(applicable_rates):
     continuous_rates = [rate]
-    continuous_rates_total = rate["value_inc_vat"]
+    continuous_rates_total = __get_intensity(rate)
     
     for offset in range(1, total_required_rates):
       if (index + offset) < applicable_rates_count:
         offset_rate = applicable_rates[(index + offset)]
         continuous_rates.append(offset_rate)
-        continuous_rates_total += offset_rate["value_inc_vat"]
+        continuous_rates_total += __get_intensity(offset_rate)
       else:
         break
     
