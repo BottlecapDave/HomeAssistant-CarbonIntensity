@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 import pytest
 
 from unit import (create_rate_data)
-from custom_components.octopus_energy.target_sensor_utils import calculate_continuous_times
+from custom_components.carbon_intensity.target_sensor_utils import calculate_continuous_times
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("current_date,target_start_time,target_end_time,expected_first_valid_from",[
@@ -47,13 +47,13 @@ async def test_when_continuous_times_present_then_next_continuous_times_returned
   # Assert
   assert result != None
   assert len(result) == 2
-  assert result[0]["valid_from"] == expected_first_valid_from
-  assert result[0]["valid_to"] == expected_first_valid_from + timedelta(minutes=30)
-  assert result[0]["value_inc_vat"] == 0.1
+  assert result[0]["from"] == expected_first_valid_from
+  assert result[0]["to"] == expected_first_valid_from + timedelta(minutes=30)
+  assert result[0]["intensity_forecast"] == 0.1
 
-  assert result[1]["valid_from"] == expected_first_valid_from + timedelta(minutes=30)
-  assert result[1]["valid_to"] == expected_first_valid_from + timedelta(hours=1)
-  assert result[1]["value_inc_vat"] == 0.1
+  assert result[1]["from"] == expected_first_valid_from + timedelta(minutes=30)
+  assert result[1]["to"] == expected_first_valid_from + timedelta(hours=1)
+  assert result[1]["intensity_forecast"] == 0.1
 
 @pytest.mark.asyncio
 async def test_when_current_time_has_not_enough_time_left_then_no_continuous_times_returned():
@@ -122,10 +122,10 @@ async def test_when_offset_set_then_next_continuous_times_returned_have_offset_a
   # Assert
   assert result != None
   assert len(result) == 2
-  assert result[0]["valid_from"] == expected_first_valid_from
-  assert result[0]["valid_to"] == expected_first_valid_from + timedelta(minutes=30)
-  assert result[0]["value_inc_vat"] == 0.1
+  assert result[0]["from"] == expected_first_valid_from
+  assert result[0]["to"] == expected_first_valid_from + timedelta(minutes=30)
+  assert result[0]["intensity_forecast"] == 0.1
 
-  assert result[1]["valid_from"] == expected_first_valid_from + timedelta(minutes=30)
-  assert result[1]["valid_to"] == expected_first_valid_from + timedelta(hours=1)
-  assert result[1]["value_inc_vat"] == 0.1
+  assert result[1]["from"] == expected_first_valid_from + timedelta(minutes=30)
+  assert result[1]["to"] == expected_first_valid_from + timedelta(hours=1)
+  assert result[1]["intensity_forecast"] == 0.1
