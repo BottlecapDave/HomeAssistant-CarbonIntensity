@@ -1,0 +1,16 @@
+{
+  "domain": "carbon_intensity",
+  "name": "Carbon Intensity",
+  "config_flow": true,
+  "documentation": "https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/",
+  "issue_tracker": "https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/issues",
+  "ssdp": [],
+  "zeroconf": [],
+  "homekit": {},
+  "dependencies": [],
+  "codeowners": [
+    "@bottlecapdave"
+  ],
+  "version": "1.0.0",
+  "iot_class": "cloud_polling"
+}
