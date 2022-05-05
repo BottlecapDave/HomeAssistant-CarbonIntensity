@@ -11,7 +11,7 @@
       },
       "target_rate": {
         "title": "Carbon Intensity",
-        "description": "Setup a target rate period. Continuous target will find the cheapest continuous period for your target hours. While intermittent will find the cheapest periods with potential gaps, which when combined will meet your target hours.",
+        "description": "Setup a target rate period. Continuous target will find the lowest intensity within a combined period for your target hours. While intermittent will find the periods with the lowest intensity with potential gaps, which when combined will meet your target hours.",
         "data": {
           "entity_id": "The name of your target",
           "hours": "The hours you require.",
@@ -43,7 +43,7 @@
       },
       "target_rate": {
         "title": "Update Target Rate",
-        "description": "Update the settings for your target rate sensor, which can be used to help you save energy and money.",
+        "description": "Update the settings for your target rate sensor.",
         "data": {
           "hours": "The hours you require.",
           "start_time": "The minimum time to start the device",
