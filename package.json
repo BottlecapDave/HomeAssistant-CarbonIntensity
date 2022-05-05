@@ -1,7 +1,7 @@
 {
-  "name": "octopusenergy",
+  "name": "carbonintensity",
   "version": "1.0.0",
-  "description": "Home Assistant integration for interacting with Octopus Energy",
+  "description": "Home Assistant integration for interacting with Carbon Intensity",
   "main": "index.js",
   "scripts": {
     "commit": "cz",
