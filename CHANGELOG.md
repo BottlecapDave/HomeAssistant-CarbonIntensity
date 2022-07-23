@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/compare/v1.0.0...v1.1.0) (2022-07-23)
+
+
+### Features
+
+* **sensor:** Added current rating sensor ([0893adf](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/commit/0893adf93d25c617155d54bc8ff61e6066895602))
+
 # 1.0.0 (2022-05-05)
 
 
