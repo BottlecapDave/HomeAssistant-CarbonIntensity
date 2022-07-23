@@ -31,9 +31,9 @@ async def async_setup_entry(hass, entry):
     setup_dependencies(hass, entry.data)
 
     # Forward our entry to setup our default sensors
-    # hass.async_create_task(
-    #   hass.config_entries.async_forward_entry_setup(entry, "sensor")
-    # )
+    hass.async_create_task(
+      hass.config_entries.async_forward_entry_setup(entry, "sensor")
+    )
   elif CONFIG_TARGET_NAME in entry.data:
     # Forward our entry to setup our target rate sensors
     hass.async_create_task(
