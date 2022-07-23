@@ -16,6 +16,10 @@ Setup is done entirely via the [integration UI](https://my.home-assistant.io/red
 
 The first thing you'll be asked to setup when you add the integration is to setup your region. This will be used to work out the carbon intensity in your area.
 
+After completing, you'll get the following sensors:
+
+* `sensor.carbon_intensity_current_rating` - The forecasted intensity rating of the current 30 minute period. All other forecasted intensity ratings are also available as an attribute of this sensor.
+
 ### Target Rates
 
 If you go through the [setup](https://my.home-assistant.io/redirect/config_flow_start/?domain=octopus_energy) process after you've configured your account, you can set up target rate sensors. These sensors calculate the lowest continuous or intermittent forecast intensity and turn on when these periods are active. These sensors can then be used in automations to turn on/off devices during times when the grid is more viable (either due to demand or available energy).
