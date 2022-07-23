@@ -52,7 +52,9 @@ async def async_setup_target_sensors(hass, entry, async_add_entities):
   
   coordinator = hass.data[DOMAIN][DATA_RATES_COORDINATOR]
 
-  async_add_entities([CarbonIntensityTargetRate(coordinator, config)], True)
+  entities = [CarbonIntensityTargetRate(coordinator, config)]
+
+  async_add_entities(entities, True)
 
 class CarbonIntensityTargetRate(CoordinatorEntity, BinarySensorEntity):
   """Sensor for calculating when a target should be turned on or off."""
