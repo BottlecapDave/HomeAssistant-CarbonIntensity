@@ -19,6 +19,7 @@ from .const import (
   CONFIG_TARGET_TYPE,
   CONFIG_TARGET_START_TIME,
   CONFIG_TARGET_END_TIME,
+  CONFIG_TARGET_ROLLING_TARGET,
 
   DATA_RATES_COORDINATOR
 )
@@ -52,9 +53,7 @@ async def async_setup_target_sensors(hass, entry, async_add_entities):
   
   coordinator = hass.data[DOMAIN][DATA_RATES_COORDINATOR]
 
-  entities = [CarbonIntensityTargetRate(coordinator, config)]
-
-  async_add_entities(entities, True)
+  async_add_entities([CarbonIntensityTargetRate(coordinator, config)], True)
 
 class CarbonIntensityTargetRate(CoordinatorEntity, BinarySensorEntity):
   """Sensor for calculating when a target should be turned on or off."""
@@ -97,6 +96,8 @@ class CarbonIntensityTargetRate(CoordinatorEntity, BinarySensorEntity):
     else:
       offset = None
 
+    target_hours = float(self._config[CONFIG_TARGET_HOURS])
+
     # Find the current rate. Rates change a maximum of once every 30 minutes.
     current_date = utcnow()
     if (current_date.minute % 30) == 0 or len(self._target_rates) == 0:
@@ -118,23 +119,29 @@ class CarbonIntensityTargetRate(CoordinatorEntity, BinarySensorEntity):
         if CONFIG_TARGET_END_TIME in self._config:
           end_time = self._config[CONFIG_TARGET_END_TIME]
 
+        is_rolling_target = True
+        if CONFIG_TARGET_ROLLING_TARGET in self._config:
+          is_rolling_target = self._config[CONFIG_TARGET_ROLLING_TARGET]
+
         if (self._config[CONFIG_TARGET_TYPE] == "Continuous"):
           self._target_rates = calculate_continuous_times(
             now(),
             start_time,
             end_time,
-            float(self._config[CONFIG_TARGET_HOURS]),
+            target_hours,
             all_rates,
-            offset
+            offset,
+            is_rolling_target
           )
         elif (self._config[CONFIG_TARGET_TYPE] == "Intermittent"):
           self._target_rates = calculate_intermittent_times(
             now(),
             start_time,
             end_time,
-            float(self._config[CONFIG_TARGET_HOURS]),
+            target_hours,
             all_rates,
-            offset
+            offset,
+            is_rolling_target
           )
         else:
           _LOGGER.error(f"Unexpected target type: {self._config[CONFIG_TARGET_TYPE]}")
