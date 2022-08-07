@@ -35,11 +35,6 @@ def __get_applicable_rates(current_date, target_start_time, target_end_time, rat
   if (target_start_offset != None):
     target_start = apply_offset(target_start, target_start_offset, True)
 
-  print(target_start_time)
-  print(target_end_time)
-  print(target_start)
-  print(target_end)
-
   # Convert our target start/end timestamps to UTC as this is what our rates are in
   target_start = as_utc(target_start)
   if target_end is not None:
