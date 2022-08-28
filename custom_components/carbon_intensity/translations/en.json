@@ -3,14 +3,14 @@
   "config": {
     "step": {
       "user": {
-        "title": "Carbon Intensity",
+        "title": "Setup",
         "description": "Setup your core settings",
         "data": {
           "region": "Region"
         }
       },
       "target_rate": {
-        "title": "Carbon Intensity",
+        "title": "Setup Target Rate",
         "description": "Setup a target rate period. Continuous target will find the lowest intensity within a combined period for your target hours. While intermittent will find the periods with the lowest intensity with potential gaps, which when combined will meet your target hours.",
         "data": {
           "entity_id": "The name of your target",
