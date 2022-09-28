@@ -113,9 +113,11 @@ class CarbonIntensityTargetRate(CoordinatorEntity, BinarySensorEntity):
       if all_rates_in_past:
         all_rates = self.coordinator.data
 
+        start_time = None
         if CONFIG_TARGET_START_TIME in self._config:
           start_time = self._config[CONFIG_TARGET_START_TIME]
 
+        end_time = None
         if CONFIG_TARGET_END_TIME in self._config:
           end_time = self._config[CONFIG_TARGET_END_TIME]
 
