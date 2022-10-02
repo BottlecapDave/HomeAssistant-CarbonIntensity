@@ -176,13 +176,21 @@ class OptionsFlowHandler(OptionsFlow):
     is_rolling_target = True
     if (CONFIG_TARGET_ROLLING_TARGET in config):
       is_rolling_target = config[CONFIG_TARGET_ROLLING_TARGET]
+
+    start_time = None
+    if (CONFIG_TARGET_START_TIME in config):
+      start_time = config[CONFIG_TARGET_START_TIME]
+
+    end_time = None
+    if (CONFIG_TARGET_END_TIME in config):
+      end_time = config[CONFIG_TARGET_END_TIME]
     
     return self.async_show_form(
       step_id="target_rate",
       data_schema=vol.Schema({
         vol.Required(CONFIG_TARGET_HOURS, default=f'{config[CONFIG_TARGET_HOURS]}'): str,
-        vol.Optional(CONFIG_TARGET_START_TIME, default=config[CONFIG_TARGET_START_TIME]): str,
-        vol.Optional(CONFIG_TARGET_END_TIME, default=config[CONFIG_TARGET_END_TIME]): str,
+        vol.Optional(CONFIG_TARGET_START_TIME, default=start_time): str,
+        vol.Optional(CONFIG_TARGET_END_TIME, default=end_time): str,
         vol.Optional(CONFIG_TARGET_OFFSET, default=offset): str,
         vol.Optional(CONFIG_TARGET_ROLLING_TARGET, default=is_rolling_target): bool,
       }),
