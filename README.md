@@ -44,7 +44,7 @@ Depending on how you're going to use the sensor, you might want the best period 
 
 However, you might only want the target time to occur once a day so once the best time for that day has passed it won't turn on again. For example, you might be using the sensor to turn on something that isn't time critical and could wait till the next day like a charger.
 
-This feature is toggled on/off by the `Limit to once a day` checkbox.
+This feature is toggled on/off by the `Re-evaluate multiple times a day` checkbox.
 
 ## FAQ
 
