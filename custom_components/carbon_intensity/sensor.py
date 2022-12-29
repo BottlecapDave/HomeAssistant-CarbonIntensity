@@ -70,6 +70,11 @@ class CarbonIntensityCurrentRating(CoordinatorEntity, SensorEntity):
     return self._attributes
 
   @property
+  def unit_of_measurement(self):
+    """Unit of measurement of the sensor."""
+    return "gCO2/kWh"
+
+  @property
   def state(self):
     """The state of the sensor."""
     # Find the current rate. We only need to do this every half an hour
