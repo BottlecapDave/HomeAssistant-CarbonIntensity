@@ -70,30 +70,34 @@ class CarbonIntensityCurrentRating(CoordinatorEntity, SensorEntity):
     return self._attributes
 
   @property
+  def unit_of_measurement(self):
+    """Unit of measurement of the sensor."""
+    return "gCO2/kWh"
+
+  @property
   def state(self):
     """The state of the sensor."""
     # Find the current rate. We only need to do this every half an hour
     now = utcnow()
-    if (now.minute % 30) == 0 or self._state == None:
-      self._state = 0
-      self._attributes = {}
+    self._state = None
+    self._attributes = {}
+    
+    _LOGGER.info(f"Updating CarbonIntensityCurrentRating")
+
+    current_rate = None
+    if self.coordinator.data != None:
+      for period in self.coordinator.data:
+        if now >= period["from"] and now <= period["to"]:
+          current_rate = period
+          break
+
+    if current_rate != None:
+      self._attributes = {
+        "rate": current_rate,
+        "all_rates": self.coordinator.data
+      }
       
-      _LOGGER.info(f"Updating CarbonIntensityCurrentRating")
-
-      current_rate = None
-      if self.coordinator.data != None:
-        for period in self.coordinator.data:
-          if now >= period["from"] and now <= period["to"]:
-            current_rate = period
-            break
-
       if current_rate != None:
-        self._attributes = {
-          "rate": current_rate,
-          "all_rates": self.coordinator.data
-        }
-        
-        if current_rate != None:
-          self._state = current_rate["intensity_forecast"]
+        self._state = current_rate["intensity_forecast"]
 
     return self._state

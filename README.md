@@ -8,6 +8,10 @@ You should take the latest published [release](https://github.com/BottlecapDave/
 
 To install, place the contents of `custom_components` into the `<config directory>/custom_components` folder of your Home Assistant installation.
 
+### HACS
+
+While the integration isn't available in the HACS store yet, you can install it as a [custom repository](https://hacs.xyz/docs/faq/custom_repositories), providing the url `https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity` and category of `integration`. Once installed, don't forget to restart your home assistant instance for the integration to be picked up.
+
 ## How to setup
 
 Setup is done entirely via the [integration UI](https://my.home-assistant.io/redirect/config_flow_start/?domain=carbon_intensity).
@@ -33,6 +37,14 @@ If you're wanting your devices to come on during a certain period, you can set t
 #### Offset
 
 You may want your target rate sensors to turn on a period of time before optimum discovered period. For instance, you may be turning on a robot vacuum cleaner and want it to charge during the optimum period. For this, you'd use the `offset` field, which can be both positive and negative and go up to a maximum of 24 hours.
+
+#### Rolling Target
+
+Depending on how you're going to use the sensor, you might want the best period to be found throughout the day so it's always applicable. For example, you might be using the sensor to turn on a washing machine which you might want to come on at the best time regardless of when you use the washing machine.
+
+However, you might only want the target time to occur once a day so once the best time for that day has passed it won't turn on again. For example, you might be using the sensor to turn on something that isn't time critical and could wait till the next day like a charger.
+
+This feature is toggled on/off by the `Re-evaluate multiple times a day` checkbox.
 
 ## FAQ
 

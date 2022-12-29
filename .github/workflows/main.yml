@@ -9,6 +9,16 @@ on:
   pull_request:
   workflow_dispatch:
 jobs:
+  validate:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: "actions/checkout@v2"
+      - uses: "home-assistant/actions/hassfest@master"
+      - name: HACS Action
+        uses: "hacs/action@main"
+        with:
+          ignore: "brands"
+          category: "integration"
   test:
     name: Test
     runs-on: ubuntu-latest
@@ -31,7 +41,9 @@ jobs:
   release:
     name: Release
     if: github.ref == 'refs/heads/main'
-    needs: test
+    needs:
+    - validate
+    - test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
