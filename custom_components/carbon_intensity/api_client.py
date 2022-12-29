@@ -23,7 +23,7 @@ class CarbonIntensityApiClient:
               results.append({
                 "from": as_utc(parse_datetime(item["from"])),
                 "to": as_utc(parse_datetime(item["to"])),
-                "intensity_forecast": item["intensity"]["forecast"],
+                "intensity_forecast": int(item["intensity"]["forecast"]),
                 "generation_mix": item["generationmix"]
               })
         except:
