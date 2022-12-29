@@ -119,7 +119,7 @@ def is_target_rate_active(current_date, applicable_rates, offset = None):
         valid_from = rate["from"]
         valid_to = rate["to"]
 
-      if current_date >= valid_from and current_date <= valid_to:
+      if current_date >= valid_from and current_date < valid_to:
         is_active = True
 
         next_index = index + 1
