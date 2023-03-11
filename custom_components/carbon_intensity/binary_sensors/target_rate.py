@@ -1,5 +1,4 @@
 import logging
-from ..utils import apply_offset
 
 from homeassistant.util.dt import (utcnow, now)
 from homeassistant.helpers.update_coordinator import (
@@ -19,7 +18,9 @@ from ..const import (
   CONFIG_TARGET_ROLLING_TARGET,
 )
 
-from ..target_sensor_utils import (
+from ..utils import apply_offset
+
+from . import (
   calculate_continuous_times,
   calculate_intermittent_times,
   is_target_rate_active
@@ -131,3 +132,17 @@ class CarbonIntensityTargetRate(CoordinatorEntity, BinarySensorEntity):
       self._attributes["next_time"] = active_result["next_time"]
 
     return active_result["is_active"]
+  
+  async def async_added_to_hass(self):
+    """Call when entity about to be added to hass."""
+    # If not None, we got an initial value.
+    await super().async_added_to_hass()
+    state = await self.async_get_last_state()
+    
+    if state is not None and self._state is None:
+      self._state = state.state
+      self._attributes = {}
+      for x in state.attributes.keys():
+        self._attributes[x] = state.attributes[x]
+    
+      _LOGGER.debug(f'Restored CarbonIntensityTargetRate state: {self._state}')

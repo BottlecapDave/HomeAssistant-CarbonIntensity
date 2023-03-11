@@ -72,3 +72,17 @@ class CarbonIntensityCurrentRating(CoordinatorEntity, SensorEntity):
         self._state = current_rate["intensity_forecast"]
 
     return self._state
+
+  async def async_added_to_hass(self):
+    """Call when entity about to be added to hass."""
+    # If not None, we got an initial value.
+    await super().async_added_to_hass()
+    state = await self.async_get_last_state()
+    
+    if state is not None and self._state is None:
+      self._state = state.state
+      self._attributes = {}
+      for x in state.attributes.keys():
+        self._attributes[x] = state.attributes[x]
+    
+      _LOGGER.debug(f'Restored CarbonIntensityCurrentRating state: {self._state}')
