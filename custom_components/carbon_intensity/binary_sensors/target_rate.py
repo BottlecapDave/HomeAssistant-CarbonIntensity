@@ -1,5 +1,8 @@
 import logging
 
+import voluptuous as vol
+
+from homeassistant.core import callback
 from homeassistant.util.dt import (utcnow, now)
 from homeassistant.helpers.update_coordinator import (
   CoordinatorEntity
@@ -16,6 +19,9 @@ from ..const import (
   CONFIG_TARGET_START_TIME,
   CONFIG_TARGET_END_TIME,
   CONFIG_TARGET_ROLLING_TARGET,
+  REGEX_HOURS,
+  REGEX_OFFSET_PARTS,
+  REGEX_TIME,
 )
 
 from ..utils import apply_offset
@@ -146,3 +152,62 @@ class CarbonIntensityTargetRate(CoordinatorEntity, BinarySensorEntity):
         self._attributes[x] = state.attributes[x]
     
       _LOGGER.debug(f'Restored CarbonIntensityTargetRate state: {self._state}')
+
+  @callback
+  def async_update_config(self, target_start_time=None, target_end_time=None, target_hours=None, target_offset=None):
+    """Update sensors config"""
+
+    config = dict(self._config)
+    
+    if target_hours is not None:
+      # Inputs from automations can include quotes, so remove these
+      trimmed_target_hours = target_hours.strip('\"')
+      matches = re.search(REGEX_HOURS, trimmed_target_hours)
+      if matches == None:
+        raise vol.Invalid(f"Target hours of '{trimmed_target_hours}' must be in half hour increments.")
+      else:
+        trimmed_target_hours = float(trimmed_target_hours)
+        if trimmed_target_hours % 0.5 != 0:
+          raise vol.Invalid(f"Target hours of '{trimmed_target_hours}' must be in half hour increments.")
+        else:
+          config.update({
+            CONFIG_TARGET_HOURS: trimmed_target_hours
+          })
+
+    if target_start_time is not None:
+      # Inputs from automations can include quotes, so remove these
+      trimmed_target_start_time = target_start_time.strip('\"')
+      matches = re.search(REGEX_TIME, trimmed_target_start_time)
+      if matches == None:
+        raise vol.Invalid("Start time must be in the format HH:MM")
+      else:
+        config.update({
+          CONFIG_TARGET_START_TIME: trimmed_target_start_time
+        })
+
+    if target_end_time is not None:
+      # Inputs from automations can include quotes, so remove these
+      trimmed_target_end_time = target_end_time.strip('\"')
+      matches = re.search(REGEX_TIME, trimmed_target_end_time)
+      if matches == None:
+        raise vol.Invalid("End time must be in the format HH:MM")
+      else:
+        config.update({
+          CONFIG_TARGET_END_TIME: trimmed_target_end_time
+        })
+
+    if target_offset is not None:
+      # Inputs from automations can include quotes, so remove these
+      trimmed_target_offset = target_offset.strip('\"')
+      matches = re.search(REGEX_OFFSET_PARTS, trimmed_target_offset)
+      if matches == None:
+        raise vol.Invalid("Offset must be in the form of HH:MM:SS with an optional negative symbol")
+      else:
+        config.update({
+          CONFIG_TARGET_OFFSET: trimmed_target_offset
+        })
+
+    self._config = config
+    self._attributes = self._config.copy()
+    self._target_rates = []
+    self.async_write_ha_state()
