@@ -3,7 +3,7 @@ from time import time
 import pytest
 
 from unit import (create_rate_data)
-from custom_components.carbon_intensity.target_sensor_utils import is_target_rate_active
+from custom_components.carbon_intensity.binary_sensors import is_target_rate_active
 
 @pytest.mark.asyncio
 async def test_when_called_before_rates_then_not_active_returned():

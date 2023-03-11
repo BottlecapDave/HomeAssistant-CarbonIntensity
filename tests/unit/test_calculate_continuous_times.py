@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 import pytest
 
 from unit import (create_rate_data)
-from custom_components.carbon_intensity.target_sensor_utils import calculate_continuous_times
+from custom_components.carbon_intensity.binary_sensors import calculate_continuous_times
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("current_date,target_start_time,target_end_time,expected_first_valid_from,is_rolling_target",[

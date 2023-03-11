@@ -1,7 +1,7 @@
 from datetime import timedelta
 import math
 from homeassistant.util.dt import (as_utc, parse_datetime)
-from .utils import (apply_offset)
+from ..utils import (apply_offset)
 
 def __get_applicable_rates(current_date, target_start_time, target_end_time, rates, target_start_offset, is_rolling_target):
   if target_end_time != None:
