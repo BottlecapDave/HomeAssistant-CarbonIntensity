@@ -131,11 +131,7 @@ class CarbonIntensityTargetRate(CoordinatorEntity, BinarySensorEntity):
         self._attributes["target_times"] = self._target_rates
 
     active_result = is_target_rate_active(current_date, self._target_rates, offset)
-
-    if offset != None and active_result["next_time"] != None:
-      self._attributes["next_time"] = apply_offset(active_result["next_time"], offset)
-    else:
-      self._attributes["next_time"] = active_result["next_time"]
+    self._attributes["next_time"] = active_result["next_time"]
 
     return active_result["is_active"]
   
