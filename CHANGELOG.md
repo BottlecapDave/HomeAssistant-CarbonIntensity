@@ -1,3 +1,19 @@
+# [1.3.0](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/compare/v1.2.0...v1.3.0) (2023-03-18)
+
+
+### Bug Fixes
+
+* **binary-sensor:** Fixed applying offset multiple times ([d9cc6f4](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/commit/d9cc6f4faccf3f8e0c2354839165af771dd5b6f5))
+* **binary-sensor:** Fixed offset not being applied to discovered target rates ([322f4a0](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/commit/322f4a027f79d6c32de189a03e74196cd116fd0b))
+* **binary-sensor:** Fixed target rate active check to account for period ending now ([e532ecc](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/commit/e532ecc39a1002ed6d2353088101cdff964b8695))
+* Fixed sensors reloading between restarts ([6c12413](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/commit/6c124130d8ef5a01516035a48b8e23d5223d611f))
+
+
+### Features
+
+* Added service for updating a target rate's config temporarily ([d40250d](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/commit/d40250d9a657947021e95c0291337b530532d2c8))
+* Updated target rates to support shifting evaluation period ([6ac0a4e](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/commit/6ac0a4edd240dccd428338b3db3d3cca4240afef))
+
 # [1.2.0](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/compare/v1.1.0...v1.2.0) (2022-12-29)
 
 
