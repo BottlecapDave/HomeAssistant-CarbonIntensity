@@ -112,7 +112,6 @@ class CarbonIntensityTargetRate(CoordinatorEntity, BinarySensorEntity):
             end_time,
             target_hours,
             all_rates,
-            offset,
             is_rolling_target
           )
         elif (self._config[CONFIG_TARGET_TYPE] == "Intermittent"):
@@ -122,7 +121,6 @@ class CarbonIntensityTargetRate(CoordinatorEntity, BinarySensorEntity):
             end_time,
             target_hours,
             all_rates,
-            offset,
             is_rolling_target
           )
         else:

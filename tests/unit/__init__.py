@@ -1,5 +1,5 @@
 import os
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 def create_rate_data(period_from, period_to, expected_rates: list):
   rates = []
@@ -22,4 +22,25 @@ def create_rate_data(period_from, period_to, expected_rates: list):
     if (rate_index > (len(expected_rates) - 1)):
       rate_index = 0
 
+  return rates
+
+def get_from(rate):
+  return rate["from"]
+
+def to_thirty_minute_increments(initial_rates: list):
+  rates = []
+
+  for rate in initial_rates:
+    current_from = datetime.strptime(rate["from"], "%Y-%m-%dT%H:%M:%S%z")
+    target_to = datetime.strptime(rate["to"], "%Y-%m-%dT%H:%M:%S%z")
+    while current_from < target_to:
+      current_to = current_from + timedelta(minutes=30)
+      rates.append({
+        "intensity_forecast": rate["intensity_forecast"],
+        "from": current_from,
+        "to": current_to
+      })
+      current_from = current_to
+  
+  rates.sort(key=get_from)
   return rates
