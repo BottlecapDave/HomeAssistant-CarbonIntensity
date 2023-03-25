@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/compare/v1.3.0...v1.3.1) (2023-03-25)
+
+
+### Bug Fixes
+
+* Added missing RestoreEntity base class to sensors ([143d89d](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/commit/143d89d853de1a7f15969ea8e523dc64553df18d))
+
 # [1.3.0](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/compare/v1.2.0...v1.3.0) (2023-03-18)
 
 
