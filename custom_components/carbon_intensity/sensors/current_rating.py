@@ -8,9 +8,11 @@ from homeassistant.components.sensor import (
     SensorEntity,
 )
 
+from homeassistant.helpers.restore_state import RestoreEntity
+
 _LOGGER = logging.getLogger(__name__)
 
-class CarbonIntensityCurrentRating(CoordinatorEntity, SensorEntity):
+class CarbonIntensityCurrentRating(CoordinatorEntity, SensorEntity, RestoreEntity):
   """Sensor for displaying the current rate."""
 
   def __init__(self, coordinator):

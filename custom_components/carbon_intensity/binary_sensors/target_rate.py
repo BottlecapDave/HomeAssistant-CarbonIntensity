@@ -10,6 +10,8 @@ from homeassistant.helpers.update_coordinator import (
 from homeassistant.components.binary_sensor import (
     BinarySensorEntity,
 )
+from homeassistant.helpers.restore_state import RestoreEntity
+
 from ..const import (
   CONFIG_TARGET_OFFSET,
 
@@ -24,8 +26,6 @@ from ..const import (
   REGEX_TIME,
 )
 
-from ..utils import apply_offset
-
 from . import (
   calculate_continuous_times,
   calculate_intermittent_times,
@@ -34,7 +34,7 @@ from . import (
 
 _LOGGER = logging.getLogger(__name__)
 
-class CarbonIntensityTargetRate(CoordinatorEntity, BinarySensorEntity):
+class CarbonIntensityTargetRate(CoordinatorEntity, BinarySensorEntity, RestoreEntity):
   """Sensor for calculating when a target should be turned on or off."""
 
   def __init__(self, coordinator, config):
