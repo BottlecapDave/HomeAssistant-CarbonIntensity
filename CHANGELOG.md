@@ -1,3 +1,10 @@
+## [1.3.2](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/compare/v1.3.1...v1.3.2) (2023-04-01)
+
+
+### Bug Fixes
+
+* Removed restore state from target rate sensor ([799bed4](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/commit/799bed47ab164eb4d19384b7b65aa899598d2754))
+
 ## [1.3.1](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/compare/v1.3.0...v1.3.1) (2023-03-25)
 
 
