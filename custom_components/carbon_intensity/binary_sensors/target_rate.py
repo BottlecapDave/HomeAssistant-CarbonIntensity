@@ -10,7 +10,6 @@ from homeassistant.helpers.update_coordinator import (
 from homeassistant.components.binary_sensor import (
     BinarySensorEntity,
 )
-from homeassistant.helpers.restore_state import RestoreEntity
 
 from ..const import (
   CONFIG_TARGET_OFFSET,
@@ -34,7 +33,7 @@ from . import (
 
 _LOGGER = logging.getLogger(__name__)
 
-class CarbonIntensityTargetRate(CoordinatorEntity, BinarySensorEntity, RestoreEntity):
+class CarbonIntensityTargetRate(CoordinatorEntity, BinarySensorEntity):
   """Sensor for calculating when a target should be turned on or off."""
 
   def __init__(self, coordinator, config):
@@ -132,20 +131,6 @@ class CarbonIntensityTargetRate(CoordinatorEntity, BinarySensorEntity, RestoreEn
     self._attributes["next_time"] = active_result["next_time"]
 
     return active_result["is_active"]
-  
-  async def async_added_to_hass(self):
-    """Call when entity about to be added to hass."""
-    # If not None, we got an initial value.
-    await super().async_added_to_hass()
-    state = await self.async_get_last_state()
-    
-    if state is not None and self._state is None:
-      self._state = state.state
-      self._attributes = {}
-      for x in state.attributes.keys():
-        self._attributes[x] = state.attributes[x]
-    
-      _LOGGER.debug(f'Restored CarbonIntensityTargetRate state: {self._state}')
 
   @callback
   def async_update_config(self, target_start_time=None, target_end_time=None, target_hours=None, target_offset=None):
