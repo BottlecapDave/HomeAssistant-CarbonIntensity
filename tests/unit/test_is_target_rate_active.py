@@ -155,7 +155,7 @@ async def test_when_offset_set_and_current_date_in_offset_rate_then_active():
 
   assert result != None
   assert result["is_active"] == True
-  assert result["next_time"] == datetime.strptime("2022-02-09T10:30:00Z", "%Y-%m-%dT%H:%M:%S%z")
+  assert result["next_time"] == datetime.strptime("2022-02-09T09:30:00Z", "%Y-%m-%dT%H:%M:%S%z")
 
 @pytest.mark.asyncio
 async def test_when_current_date_is_equal_to_last_end_date_then_not_active():

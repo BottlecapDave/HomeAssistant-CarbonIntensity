@@ -142,6 +142,6 @@ def is_target_rate_active(current_date, applicable_rates, offset = None):
         break
 
   return {
-    "next_time": next_time,
+    "next_time": apply_offset(next_time, offset) if next_time is not None and offset is not None else next_time,
     "is_active": is_active,
   }

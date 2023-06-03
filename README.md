@@ -1,5 +1,7 @@
 # Home Assistant Carbon Intensity
 
+[![installation_badge](https://img.shields.io/badge/dynamic/json?color=41BDF5&logo=home-assistant&label=integration%20usage&suffix=%20installs&cacheSeconds=15600&url=https://analytics.home-assistant.io/custom_integrations.json&query=$.carbon_intensity.total)](https://github.com/hacs/integration)
+
 Custom component to use the data from [carbonintensity.org.uk](https://carbonintensity.org.uk) to make your home more energy efficient.
 
 - [Home Assistant Carbon Intensity](#home-assistant-carbon-intensity)
