@@ -1,6 +1,6 @@
 from datetime import timedelta
 import logging
-from .binary_sensors.target_rate import CarbonIntensityTargetRate
+from .target_rates.target_rate import CarbonIntensityTargetRate
 
 from homeassistant.exceptions import ConfigEntryNotReady
 

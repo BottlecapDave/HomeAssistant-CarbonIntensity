@@ -1,6 +1,6 @@
 from datetime import timedelta
 import logging
-from .sensors.current_rating import CarbonIntensityCurrentRating
+from .entities.current_rating import CarbonIntensityCurrentRating
 
 from .const import (
   DOMAIN,
@@ -28,6 +28,8 @@ async def async_setup_default_sensors(hass, entry, async_add_entities):
 
   await rate_coordinator.async_config_entry_first_refresh()
 
-  entities = [CarbonIntensityCurrentRating(rate_coordinator)]
+  region = config[CONFIG_MAIN_REGION]
+
+  entities = [CarbonIntensityCurrentRating(rate_coordinator, region)]
 
   async_add_entities(entities, True)
