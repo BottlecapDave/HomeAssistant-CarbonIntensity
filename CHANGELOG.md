@@ -1,3 +1,22 @@
+# [2.0.0](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/compare/v1.3.2...v2.0.0) (2023-10-11)
+
+
+### Bug Fixes
+
+* **binary-sensor:** Fixed next_time on target rate sensors to take account of configured offsets ([1e1f38b](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/commit/1e1f38bf43681049f2ce5d85abf05fe9acfcc744))
+* **config:** Updated target rate sensor to support type and name to be updated ([e906b9a](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/commit/e906b9a8a025442150ba71f404fce7156f7c1d31))
+
+
+### Features
+
+* raised events when rates are refreshed. These are exposed in new event entities. ([400d147](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/commit/400d147e12109552f7aec106449c0d2387217be7))
+* updated name of current rating sensor to include target region and removed all_rates attribute ([749e5e3](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/commit/749e5e395c8512c45d56364672c38e7a8047d77a))
+
+
+### BREAKING CHANGES
+
+* all_rates attribute has been removed from target rating in favour of new event entities. The name of the current rating sensor now includes the region.
+
 ## [1.3.2](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/compare/v1.3.1...v1.3.2) (2023-04-01)
 
 
