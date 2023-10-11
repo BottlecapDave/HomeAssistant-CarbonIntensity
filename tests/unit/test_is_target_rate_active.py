@@ -3,7 +3,7 @@ from time import time
 import pytest
 
 from unit import (create_rate_data)
-from custom_components.carbon_intensity.binary_sensors import is_target_rate_active
+from custom_components.carbon_intensity.target_rates import is_target_rate_active
 
 @pytest.mark.asyncio
 async def test_when_called_before_rates_then_not_active_returned():
@@ -155,7 +155,7 @@ async def test_when_offset_set_and_current_date_in_offset_rate_then_active():
 
   assert result != None
   assert result["is_active"] == True
-  assert result["next_time"] == datetime.strptime("2022-02-09T10:30:00Z", "%Y-%m-%dT%H:%M:%S%z")
+  assert result["next_time"] == datetime.strptime("2022-02-09T09:30:00Z", "%Y-%m-%dT%H:%M:%S%z")
 
 @pytest.mark.asyncio
 async def test_when_current_date_is_equal_to_last_end_date_then_not_active():

@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 import pytest
 
 from unit import (create_rate_data, to_thirty_minute_increments)
-from custom_components.carbon_intensity.binary_sensors import calculate_intermittent_times
+from custom_components.carbon_intensity.target_rates import calculate_intermittent_times
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("current_date,target_start_time,target_end_time,expected_first_from,is_rolling_target",[

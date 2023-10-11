@@ -1,5 +1,7 @@
 import logging
 
+import re
+
 import voluptuous as vol
 
 from homeassistant.core import callback
@@ -89,7 +91,7 @@ class CarbonIntensityTargetRate(CoordinatorEntity, BinarySensorEntity):
           break
       
       if all_rates_in_past:
-        all_rates = self.coordinator.data
+        all_rates = self.coordinator.data.rates if self.coordinator is not None and self.coordinator.data is not None else None
 
         start_time = None
         if CONFIG_TARGET_START_TIME in self._config:

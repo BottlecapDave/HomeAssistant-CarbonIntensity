@@ -5,32 +5,34 @@ from homeassistant.helpers.update_coordinator import (
   CoordinatorEntity
 )
 from homeassistant.components.sensor import (
-    SensorEntity,
+    RestoreSensor,
 )
 
-from homeassistant.helpers.restore_state import RestoreEntity
+from ..entities import get_current_rate
+from ..utils import get_region_for_unique_id_from_id, get_region_from_id
 
 _LOGGER = logging.getLogger(__name__)
 
-class CarbonIntensityCurrentRating(CoordinatorEntity, SensorEntity, RestoreEntity):
+class CarbonIntensityCurrentRating(CoordinatorEntity, RestoreSensor):
   """Sensor for displaying the current rate."""
 
-  def __init__(self, coordinator):
+  def __init__(self, coordinator, region: str):
     """Init sensor."""
     # Pass coordinator to base class
     super().__init__(coordinator)
 
     self._state = None
+    self._region = region
 
   @property
   def unique_id(self):
     """The id of the sensor."""
-    return f"carbon_intensity_current_rating"
+    return f"carbon_intensity_{get_region_for_unique_id_from_id(self._region)}_current_rating"
     
   @property
   def name(self):
     """Name of the sensor."""
-    return f"Carbon Intensity Current Rating"
+    return f"Carbon Intensity {get_region_from_id(self._region)} Current Rating"
 
   @property
   def icon(self):
@@ -57,21 +59,15 @@ class CarbonIntensityCurrentRating(CoordinatorEntity, SensorEntity, RestoreEntit
     
     _LOGGER.info(f"Updating CarbonIntensityCurrentRating")
 
-    current_rate = None
-    if self.coordinator.data != None:
-      for period in self.coordinator.data:
-        if now >= period["from"] and now <= period["to"]:
-          current_rate = period
-          break
+    rates = self.coordinator.data.rates if self.coordinator is not None and self.coordinator.data is not None else None
 
-    if current_rate != None:
-      self._attributes = {
-        "rate": current_rate,
-        "all_rates": self.coordinator.data
-      }
-      
-      if current_rate != None:
-        self._state = current_rate["intensity_forecast"]
+    current_rate = get_current_rate(now, rates)
+    self._attributes = {
+      "rate": current_rate
+    }
+
+    if current_rate is not None:
+      self._state = current_rate["intensity_forecast"]
 
     return self._state
 
@@ -85,6 +81,8 @@ class CarbonIntensityCurrentRating(CoordinatorEntity, SensorEntity, RestoreEntit
       self._state = state.state
       self._attributes = {}
       for x in state.attributes.keys():
-        self._attributes[x] = state.attributes[x]
+
+        if x != "all_rates":
+          self._attributes[x] = state.attributes[x]
     
       _LOGGER.debug(f'Restored CarbonIntensityCurrentRating state: {self._state}')

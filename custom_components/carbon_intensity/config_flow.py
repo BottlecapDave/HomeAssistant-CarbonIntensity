@@ -24,6 +24,8 @@ from .const import (
   REGEX_OFFSET_PARTS,
 )
 
+from .utils import get_region_options
+
 _LOGGER = logging.getLogger(__name__)
 
 def validate_target_rate_sensor(data):
@@ -58,27 +60,6 @@ def validate_target_rate_sensor(data):
       errors[CONFIG_TARGET_OFFSET] = "invalid_offset"
 
   return errors
-
-def get_region_options():
-  return {
-    "1": "North Scotland",
-    "2": "South Scotland",
-    "3": "North West England",
-    "4": "North East England",
-    "5": "Yorkshire",
-    "6": "North Wales",
-    "7": "South Wales",
-    "8": "West Midlands",
-    "9": "East Midlands",
-    "10": "East England",
-    "11": "South West England",
-    "12": "South England",
-    "13": "London",
-    "14": "South East England",
-    "15": "England",
-    "16": "Scotland",
-    "17": "Wales"
-  }
 
 class CarbonIntensityConfigFlow(ConfigFlow, domain=DOMAIN): 
   """Config flow."""
@@ -188,7 +169,12 @@ class OptionsFlowHandler(OptionsFlow):
     return self.async_show_form(
       step_id="target_rate",
       data_schema=vol.Schema({
+        vol.Required(CONFIG_TARGET_NAME, default=config[CONFIG_TARGET_NAME]): str,
         vol.Required(CONFIG_TARGET_HOURS, default=f'{config[CONFIG_TARGET_HOURS]}'): str,
+        vol.Required(CONFIG_TARGET_TYPE, default=config[CONFIG_TARGET_TYPE]): vol.In({
+          "Continuous": "Continuous",
+          "Intermittent": "Intermittent"
+        }),
         start_time_key: str,
         end_time_key: str,
         offset_key: str,
