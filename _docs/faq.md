@@ -1,8 +1,5 @@
 # FAQ
 
-- [FAQ](#faq)
-  - [How do I increase the logs for the integration?](#how-do-i-increase-the-logs-for-the-integration)
-
 ## How do I increase the logs for the integration?
 
 If you are having issues, it would be helpful to include Home Assistant logs as part of any raised issue. This can be done by following the [instructions](https://www.home-assistant.io/docs/configuration/troubleshooting/#enabling-debug-logging) outlined by Home Assistant.

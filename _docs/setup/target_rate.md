@@ -1,26 +1,12 @@
-# Setup Target Rate Sensor(s)
+# Target Rate Sensor(s)
 
-- [Setup Target Rate Sensor(s)](#setup-target-rate-sensors)
-  - [Setup](#setup)
-    - [Target Timeframe](#target-timeframe)
-      - [Agile Users](#agile-users)
-    - [Hours](#hours)
-    - [Offset](#offset)
-    - [Rolling Target](#rolling-target)
-  - [Attributes](#attributes)
-  - [Services](#services)
-  - [Examples](#examples)
-      - [Examples](#examples-1)
-        - [Continuous](#continuous)
-        - [Intermittent](#intermittent)
+After you've configured your [core details](./core.md), you'll be able to configure target rate sensors. These are configured by adding subsequent instances of the integration going through the [normal flow](https://my.home-assistant.io/redirect/config_flow_start/?domain=carbon_intensity).
 
-After you've configured your [account](./setup_account.md), you'll be able to configure target rate sensors. These are configured by adding subsequent instances of the integration going through the [normal flow](https://my.home-assistant.io/redirect/config_flow_start/?domain=octopus_energy).
+These sensors calculate the lowest continuous or intermittent rates **within a 24 hour period** and turn on when these periods are active.
 
-These sensors calculate the lowest continuous or intermittent rates **within a 24 hour period** and turn on when these periods are active. If you are targeting an export meter, then the sensors will calculate the highest continuous or intermittent rates **within a 24 hour period** and turn on when these periods are active.
+These sensors can then be used in automations to turn on/off devices that save the planet from additional carbon. You can go through this flow as many times as you need target rate sensors.
 
-These sensors can then be used in automations to turn on/off devices that save you (and the planet) energy and money. You can go through this flow as many times as you need target rate sensors.
-
-Each sensor will be in the form `binary_sensor.octopus_energy_target_{{TARGET_RATE_NAME}}`.
+Each sensor will be in the form `binary_sensor.carbon_intensity_target_{{TARGET_RATE_NAME}}`.
 
 ## Setup
 
@@ -30,26 +16,13 @@ If you're wanting your devices to come on during a certain timeframe, for exampl
 
 The `from/start` time can be set in the field `The minimum time to start the device` and the `to/end` time can be set in the field `The maximum time to stop the device`.
 
-If not specified, these default from `00:00:00` to `00:00:00` the following day.
+If not specified, these default from `00:00` to `00:00` the following day.
 
 If for example you want to look at prices overnight you could set the minimum time to something like `20:00` and your maximum time to something like `05:00`. If the minimum time is "before" the maximum time, then it will treat the maximum time as the time for the following day.
 
-> Please note: The target rate will not be evaluated until **all data** is available for the specified timeframe. Therefore if we're looking between `00:00` and `00:00`, full rate information must exist between this time. Whereas if times are between `10:00` and `16:00`, then rate information is only needed between these times before it can be calculated.
+!!! info
 
-#### Agile Users
-
-If you are an agile user, then agile prices are available from [11pm to 11pm UK time](https://developer.octopus.energy/docs/api/#agile-octopus) and published at `16:00` UK time. Therefore, you cannot specify a timeframe that starts before `16:00` and ends after `23:00` because the target rate(s) will not be able to be calculated until part way through the specified timeframe as this is when the full set will become available. We recommend you set your timeframes to `16:00`/`16:00` or `23:00`/`23:00` if you're wanting to target a full 24 hours, but other valid times might include
-
-
-| from/start | to/end | Notes |
-|-|-|-|
-| `10:00` | `23:00` | our start time is before 4pm, but our end time is not after 11pm |
-| `16:30` | `23:30` | our start time is after 4pm, so our end time can be after 11pm |
-| `17:00` | `14:00` | our start time is after 4pm and our end time is before our start time so therefore for the next day. Doing this might delay when the target rate sensor is calculated depending on when the rates are made available for the next day (e.g. if they're late for publishing). |
-
-This is not automatically done by the integration as I didn't want to cause confusion for users when they didn't set anything nor did I want behaviour to implicitly change when users switch tariffs.
-
-See the examples below for how this can be used and how rates will be selected.
+    The target rate will not be evaluated until **all rates** are available for the specified timeframe. Therefore if we're looking between `00:00` and `00:00`, full rate information must exist between this time. Whereas if times are between `10:00` and `16:00`, then rate information is only needed between these times before it can be calculated.
 
 ### Hours
 
@@ -71,14 +44,36 @@ The following attributes are available on each sensor
 
 | Attribute | Type | Description |
 |-----------|------|-------------|
+| `name` | `string` | The name of the sensor. |
+| `hours` | `string` | The total hours are being discovered.  |
+| `type` | `string` | The type/mode for the target rate sensor. This will be either `continuous` or `intermittent`. |
+| `offset` | `string` | The offset configured for the sensor. |
+| `start_time` | `string` | The start time configured for the sensor. |
+| `end_time` | `string` | The end time configured for the sensor. |
+| `target_times` | `list` | The discovered times and rates the sensor will come on for. |
+| `next_time` | `datetime` | The next date/time the sensor will come on. This will only be populated if `target_times` has been calculated and at least one period/block is in the future. |
+
+For each target time, you will get the following attributes
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `from` | `string` | The time the target time starts. |
+| `to` | `string` | The time the target time ends. |
+| `intensity_forecast` | `integer` | The forecasted/estimated carbon intensity for the period of time. The higher the number, the more carbon. |
+| `generation_mix` | `list` | The splits between the different fuel sources. |
+
+For each generation mix, you will get the following attributes
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `fuel` | `string` | The type of fuel |
+| `perc` | `float` | The estimated percentage the fuel source makes up in the mix. |
 
 ## Services
 
 There are services available associated with target rate sensors. Please review them in the [services doc](./services.md).
 
 ## Examples
-
-#### Examples
 
 Lets look at a few examples. Lets say we have the the following (unrealistic) set of intensity values.
 
@@ -96,7 +91,7 @@ Lets look at a few examples. Lets say we have the the following (unrealistic) se
 | `2023-01-02T18:00` | `2023-01-02T23:00` | 34 |
 | `2023-01-02T23:30` | `2023-01-03T00:00` | 6 |
 
-##### Continuous
+### Continuous
 
 If we look at a continuous sensor that we want on for 1 hour.
 
@@ -132,7 +127,7 @@ If we set our from/to times to look over two days, from `20:00` to `06:00`, we t
 
 If we set an offset of `-00:30:00`, then while the times might be the same, the target rate sensor will turn on 30 minutes before the select rate period starts. Any set time restrictions **will not** include the offset.
 
-##### Intermittent
+### Intermittent
 
 If we look at an intermittent sensor that we want on for 1 hour total (but not necessarily together).
 

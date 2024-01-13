@@ -1,9 +1,5 @@
 # Events
 
-- [Events](#events)
-  - [Current Day Rates](#current-day-rates)
-  - [Next Day Rates](#next-day-rates)
-
 The following events are raised by the integration. These events power various entities mentioned above. They can also be used to trigger automations. An example automation might look like the following
 
 ```yaml

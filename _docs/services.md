@@ -1,11 +1,8 @@
 # Services
 
-- [Services](#services)
-  - [Service carbon\_intensity.update\_target\_config](#service-carbon_intensityupdate_target_config)
-
 There are a few services available within this integration, which are detailed here.
 
-## Service carbon_intensity.update_target_config
+## update_target_config
 
 Service for updating a given target rate's config. This allows you to change target rates sensors dynamically based on other outside criteria (e.g. you need to adjust the target hours to top up home batteries).
 
