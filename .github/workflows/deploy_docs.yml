@@ -6,7 +6,7 @@ on:
       - 'mkdocs.yml'
       - '_docs/**'
     branches:
-      - master
+      - main
 permissions:
   contents: write
 jobs:
