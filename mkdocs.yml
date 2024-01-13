@@ -1,0 +1,47 @@
+site_name: Home Assistant Carbon Intensity
+repo_url: https://github.com/bottlecapdave/homeassistant-carbonintensity
+docs_dir: _docs
+
+nav:
+  - Home: index.md
+  - Setup:
+    - ./setup/core.md
+    - ./setup/target_rate.md
+  - services.md
+  - events.md
+  - faq.md
+  - sponsorship.md
+
+# extra:
+#   version:
+#     provider: mike
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - attr_list
+  - toc:
+      permalink: "#"
+
+theme:
+  name: material
+  features:
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - toc.follow
+  palette:
+    # Palette toggle for light mode
+    - scheme: default
+      primary: light blue
+      toggle:
+        icon: material/brightness-7 
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - scheme: slate
+      primary: light blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode

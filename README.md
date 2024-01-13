@@ -5,13 +5,21 @@
 Custom component to use the data from [carbonintensity.org.uk](https://carbonintensity.org.uk) to make your home more energy efficient.
 
 - [Home Assistant Carbon Intensity](#home-assistant-carbon-intensity)
+  - [Features](#features)
   - [How to install](#how-to-install)
     - [HACS](#hacs)
     - [Manual](#manual)
   - [How to setup](#how-to-setup)
-    - [Target Rates](#target-rates)
+  - [Docs](#docs)
   - [FAQ](#faq)
   - [Sponsorship](#sponsorship)
+
+## Features
+
+Below are the main features of the integration
+
+* [Current carbon intensity rating for your region](https://bottlecapdave.github.io/HomeAssistant-OctopusEnergy/entities)
+* [Custom sensor support to target lowest rates](https://bottlecapdave.github.io/HomeAssistant-OctopusEnergy/setup/target_rate/)
 
 ## How to install
 
@@ -27,19 +35,15 @@ To install, place the contents of `custom_components` into the `<config director
 
 ## How to setup
 
-Please follow the [setup guide](./_docs/setup_account.md) to setup your initial account.
+Please follow the [setup guide](https://bottlecapdave.github.io/HomeAssistant-CarbonIntensity/setup/core) to setup your initial details. This guide details the configuration, along with the sensors that will be available to you.
 
-### Target Rates
+## Docs
 
-These sensors calculate the lowest continuous or intermittent rates **within a 24 hour period** and turn on when these periods are active.
-
-These sensors can then be used in automations to turn on/off devices that save you (and the planet) energy. You can go through this flow as many times as you need target rate sensors.
-
-Please follow the [setup guide](./_docs/setup_target_rate.md) to setup.
+To get full use of the integration, please visit the [docs](https://bottlecapdave.github.io/HomeAssistant-CarbonIntensity/)
 
 ## FAQ
 
-Before raising anything, please read through the [faq](./_docs/faq.md). If you have questions, then you can raise a [discussion](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/discussions). If you have found a bug or have a feature request please [raise it](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/issues) using the appropriate report template.
+Before raising anything, please read through the [faq](https://bottlecapdave.github.io/HomeAssistant-CarbonIntensity/faq). If you have found a bug or have a feature request please [raise it](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/issues) using the appropriate report template.
 
 ## Sponsorship
 

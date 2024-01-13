@@ -1,9 +1,8 @@
-# Setup Account
-
-- [Setup Account](#setup-account)
-  - [Region](#region)
+# Core
 
 Setup is done entirely via the [integration UI](https://my.home-assistant.io/redirect/config_flow_start/?domain=carbon_intensity).
+
+This will be used to feed your various sensors
 
 ## Region
 
