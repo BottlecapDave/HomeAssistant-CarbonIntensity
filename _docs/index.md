@@ -6,8 +6,8 @@ Custom component to use the data from [carbonintensity.org.uk](https://carbonint
 
 Below are the main features of the integration
 
-* [Current carbon intensity rating for your region](https://bottlecapdave.github.io/HomeAssistant-OctopusEnergy/entities)
-* [Custom sensor support to target lowest rates](https://bottlecapdave.github.io/HomeAssistant-OctopusEnergy/setup/target_rate/)
+* [Current carbon intensity rating for your region](https://bottlecapdave.github.io/HomeAssistant-CarbonIntensity/entities)
+* [Custom sensor support to target lowest rates](https://bottlecapdave.github.io/HomeAssistant-CarbonIntensity/setup/target_rate/)
 
 ## How to install
 
