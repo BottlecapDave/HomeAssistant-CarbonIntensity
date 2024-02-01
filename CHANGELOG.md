@@ -1,3 +1,10 @@
+## [2.0.2](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/compare/v2.0.1...v2.0.2) (2024-02-01)
+
+
+### Bug Fixes
+
+* Fixed links in config ([e52b79b](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/commit/e52b79b21d96b3932a8415e5cde9ce317f2202f8))
+
 ## [2.0.1](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/compare/v2.0.0...v2.0.1) (2024-01-13)
 
 
