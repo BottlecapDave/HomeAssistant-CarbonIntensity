@@ -15,6 +15,10 @@ _LOGGER = logging.getLogger(__name__)
 class CarbonIntensityCurrentDayRates(EventEntity, RestoreEntity):
   """Sensor for displaying the current day's rates."""
 
+  _entity_component_unrecorded_attributes = frozenset(
+    {"rates"}
+  )
+
   def __init__(self, hass: HomeAssistant, region):
     """Init sensor."""
 
