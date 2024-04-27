@@ -30,6 +30,6 @@ async def async_setup_default_sensors(hass, entry, async_add_entities):
 
   region = config[CONFIG_MAIN_REGION]
 
-  entities = [CarbonIntensityCurrentRating(rate_coordinator, region)]
+  entities = [CarbonIntensityCurrentRating(hass, rate_coordinator, region)]
 
   async_add_entities(entities, True)

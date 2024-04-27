@@ -1,8 +1,24 @@
+import logging
 from datetime import datetime, timedelta
 from typing import Callable, Any
 
 from homeassistant.util.dt import (as_utc)
 from ..utils.attributes import dict_to_typed_dict
+from ..utils.requests import calculate_next_refresh
+
+_LOGGER = logging.getLogger(__name__)
+
+class BaseCoordinatorResult:
+  last_retrieved: datetime
+  next_refresh: datetime
+  request_attempts: int
+  refresh_rate_in_minutes: int
+
+  def __init__(self, last_retrieved: datetime, request_attempts: int, refresh_rate_in_minutes: int):
+    self.last_retrieved = last_retrieved
+    self.request_attempts = request_attempts
+    self.next_refresh = calculate_next_refresh(last_retrieved, request_attempts, refresh_rate_in_minutes)
+    _LOGGER.debug(f'last_retrieved: {last_retrieved}; request_attempts: {request_attempts}; refresh_rate_in_minutes: {refresh_rate_in_minutes}; next_refresh: {self.next_refresh}')
 
 def raise_rate_events(now: datetime,
                       rates: list, 
@@ -26,10 +42,10 @@ def raise_rate_events(now: datetime,
     else:
       current_rates.append(rate)
   
-  event_data = { "rates": current_rates }
+  event_data = dict_to_typed_dict({ "rates": current_rates })
   event_data.update(additional_attributes)
-  fire_event(current_event_key, dict_to_typed_dict(event_data))
+  fire_event(current_event_key, event_data)
   
-  event_data = { "rates": next_rates }
+  event_data = dict_to_typed_dict({ "rates": next_rates })
   event_data.update(additional_attributes)
-  fire_event(next_event_key, dict_to_typed_dict(event_data))
+  fire_event(next_event_key, event_data)

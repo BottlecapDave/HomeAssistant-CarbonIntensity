@@ -26,4 +26,5 @@ REGEX_PRICE = "^(-)?[0-9]+(\\.[0-9]+)*$"
 EVENT_CURRENT_DAY_RATES = "carbon_intensity_current_day_rates"
 EVENT_NEXT_DAY_RATES = "carbon_intensity_next_day_rates"
 
+REFRESH_RATE_IN_MINUTES_RATES = 30
 COORDINATOR_REFRESH_IN_SECONDS = 60
