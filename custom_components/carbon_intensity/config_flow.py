@@ -4,6 +4,7 @@ import logging
 
 from homeassistant.config_entries import (ConfigFlow, OptionsFlow)
 from homeassistant.core import callback
+from homeassistant.helpers import selector
 
 from .const import (
   DOMAIN,
@@ -17,49 +18,14 @@ from .const import (
   CONFIG_TARGET_TYPE,
   CONFIG_TARGET_OFFSET,
   CONFIG_TARGET_ROLLING_TARGET,
-
-  REGEX_TIME,
-  REGEX_ENTITY_NAME,
-  REGEX_HOURS,
-  REGEX_OFFSET_PARTS,
+  CONFIG_TARGET_LAST_RATES,
+  CONFIG_TARGET_MAX_RATE
 )
 
+from .config.target_rates import validate_target_rate_config
 from .utils import get_region_options
 
 _LOGGER = logging.getLogger(__name__)
-
-def validate_target_rate_sensor(data):
-  errors = {}
-
-  matches = re.search(REGEX_ENTITY_NAME, data[CONFIG_TARGET_NAME])
-  if matches == None:
-    errors[CONFIG_TARGET_NAME] = "invalid_target_name"
-
-  # For some reason float type isn't working properly - reporting user input malformed
-  matches = re.search(REGEX_HOURS, data[CONFIG_TARGET_HOURS])
-  if matches == None:
-    errors[CONFIG_TARGET_HOURS] = "invalid_target_hours"
-  else:
-    data[CONFIG_TARGET_HOURS] = float(data[CONFIG_TARGET_HOURS])
-    if data[CONFIG_TARGET_HOURS] % 0.5 != 0:
-      errors[CONFIG_TARGET_HOURS] = "invalid_target_hours"
-
-  if CONFIG_TARGET_START_TIME in data:
-    matches = re.search(REGEX_TIME, data[CONFIG_TARGET_START_TIME])
-    if matches == None:
-      errors[CONFIG_TARGET_START_TIME] = "invalid_target_time"
-
-  if CONFIG_TARGET_END_TIME in data:
-    matches = re.search(REGEX_TIME, data[CONFIG_TARGET_END_TIME])
-    if matches == None:
-      errors[CONFIG_TARGET_END_TIME] = "invalid_target_time"
-
-  if CONFIG_TARGET_OFFSET in data:
-    matches = re.search(REGEX_OFFSET_PARTS, data[CONFIG_TARGET_OFFSET])
-    if matches == None:
-      errors[CONFIG_TARGET_OFFSET] = "invalid_offset"
-
-  return errors
 
 class CarbonIntensityConfigFlow(ConfigFlow, domain=DOMAIN): 
   """Config flow."""
@@ -85,12 +51,14 @@ class CarbonIntensityConfigFlow(ConfigFlow, domain=DOMAIN):
       vol.Optional(CONFIG_TARGET_END_TIME): str,
       vol.Optional(CONFIG_TARGET_OFFSET): str,
       vol.Optional(CONFIG_TARGET_ROLLING_TARGET, default=False): bool,
+      vol.Optional(CONFIG_TARGET_LAST_RATES): bool,
+      vol.Optional(CONFIG_TARGET_MAX_RATE): float,
     })
 
   async def async_step_target_rate(self, user_input):
     """Setup a target based on the provided user input"""
     
-    errors = validate_target_rate_sensor(user_input)
+    errors = validate_target_rate_config(user_input)
 
     if len(errors) < 1:
       # Setup our targets sensor
@@ -165,21 +133,42 @@ class OptionsFlowHandler(OptionsFlow):
     is_rolling_target = True
     if (CONFIG_TARGET_ROLLING_TARGET in config):
       is_rolling_target = config[CONFIG_TARGET_ROLLING_TARGET]
+
+    find_last_rates = False
+    if (CONFIG_TARGET_LAST_RATES in config):
+      find_last_rates = config[CONFIG_TARGET_LAST_RATES]
     
     return self.async_show_form(
       step_id="target_rate",
-      data_schema=vol.Schema({
-        vol.Required(CONFIG_TARGET_NAME, default=config[CONFIG_TARGET_NAME]): str,
-        vol.Required(CONFIG_TARGET_HOURS, default=f'{config[CONFIG_TARGET_HOURS]}'): str,
-        vol.Required(CONFIG_TARGET_TYPE, default=config[CONFIG_TARGET_TYPE]): vol.In({
-          "Continuous": "Continuous",
-          "Intermittent": "Intermittent"
-        }),
-        start_time_key: str,
-        end_time_key: str,
-        offset_key: str,
-        vol.Optional(CONFIG_TARGET_ROLLING_TARGET, default=is_rolling_target): bool,
-      }),
+      data_schema=self.add_suggested_values_to_schema(
+          vol.Schema({
+            vol.Required(CONFIG_TARGET_NAME): str,
+            vol.Required(CONFIG_TARGET_HOURS): str,
+            vol.Required(CONFIG_TARGET_TYPE, default="Continuous"): selector.SelectSelector(
+                selector.SelectSelectorConfig(
+                    options=[
+                      selector.SelectOptionDict(value="Continuous", label="Continuous"),
+                      selector.SelectOptionDict(value="Intermittent", label="Intermittent"),
+                    ],
+                    mode=selector.SelectSelectorMode.DROPDOWN,
+                )
+            ),
+            start_time_key: str,
+            end_time_key: str,
+            offset_key: str,
+            vol.Optional(CONFIG_TARGET_ROLLING_TARGET): bool,
+            vol.Optional(CONFIG_TARGET_LAST_RATES): bool,
+            vol.Optional(CONFIG_TARGET_MAX_RATE): float,
+          }),
+          {
+            CONFIG_TARGET_NAME: config[CONFIG_TARGET_NAME],
+            CONFIG_TARGET_HOURS: f'{config[CONFIG_TARGET_HOURS]}',
+            CONFIG_TARGET_TYPE: config[CONFIG_TARGET_TYPE],
+            CONFIG_TARGET_ROLLING_TARGET: is_rolling_target,
+            CONFIG_TARGET_LAST_RATES: find_last_rates,
+            CONFIG_TARGET_MAX_RATE: config[CONFIG_TARGET_MAX_RATE] if CONFIG_TARGET_MAX_RATE in config else None
+          }
+      ),
       errors=errors
     )
 
@@ -223,7 +212,7 @@ class OptionsFlowHandler(OptionsFlow):
       config = dict(self._entry.data)
       config.update(user_input)
 
-      errors = validate_target_rate_sensor(config)
+      errors = validate_target_rate_config(config)
 
       if (len(errors) > 0):
         return await self.__async_setup_target_rate_schema(config, errors)

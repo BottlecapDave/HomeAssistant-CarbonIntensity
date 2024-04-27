@@ -2,7 +2,7 @@ from datetime import timedelta
 
 import re
 
-from .const import (
+from ..const import (
   REGEX_OFFSET_PARTS,
 )
 
