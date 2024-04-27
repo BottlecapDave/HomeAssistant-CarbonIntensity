@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from typing import Callable, Any
 
 from homeassistant.util.dt import (as_utc)
+from ..utils.attributes import dict_to_typed_dict
 
 def raise_rate_events(now: datetime,
                       rates: list, 
@@ -27,8 +28,8 @@ def raise_rate_events(now: datetime,
   
   event_data = { "rates": current_rates }
   event_data.update(additional_attributes)
-  fire_event(current_event_key, event_data)
+  fire_event(current_event_key, dict_to_typed_dict(event_data))
   
   event_data = { "rates": next_rates }
   event_data.update(additional_attributes)
-  fire_event(next_event_key, event_data)
+  fire_event(next_event_key, dict_to_typed_dict(event_data))
