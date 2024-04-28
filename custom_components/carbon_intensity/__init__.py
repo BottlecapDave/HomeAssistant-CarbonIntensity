@@ -21,6 +21,14 @@ async def async_setup_entry(hass, entry):
     await async_setup_dependencies(hass, entry.data)
 
     await hass.config_entries.async_forward_entry_setups(entry, ACCOUNT_PLATFORMS)
+
+    # If the main account has been reloaded, then reload all other entries to make sure they're referencing
+    # the correct references (e.g. rate coordinators)
+    child_entries = hass.config_entries.async_entries(DOMAIN)
+    for child_entry in child_entries:
+      if CONFIG_TARGET_NAME in child_entry.data:
+        await hass.config_entries.async_reload(child_entry.entry_id)
+
   elif CONFIG_TARGET_NAME in entry.data:
     await hass.config_entries.async_forward_entry_setups(entry, TARGET_RATE_PLATFORMS)
   

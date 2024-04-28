@@ -5,32 +5,13 @@ import pytest
 from custom_components.carbon_intensity.api_client import CarbonIntensityApiClient
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("region",[
-  (1),
-  (2),
-  (3),
-  (4),
-  (5),
-  (6),
-  (7),
-  (8),
-  (9),
-  (10),
-  (11),
-  (12),
-  (13),
-  (14),
-  (15),
-  (16),
-  (17)
-])
-async def test_when_get_intensity_and_generation_rate_called_then_calculation_returned(region):
+async def test_when_get_national_intensity_and_generation_rate_called_then_calculation_returned():
     # Arrange
     client = CarbonIntensityApiClient()
     period_from = datetime.strptime("2021-12-01T00:00:00Z", "%Y-%m-%dT%H:%M:%S%z")
 
     # Act
-    data = await client.async_get_intensity_and_generation_rates(period_from, region)
+    data = await client.async_get_national_intensity_and_generation_rates(period_from)
 
     # Assert
     assert len(data) == 97

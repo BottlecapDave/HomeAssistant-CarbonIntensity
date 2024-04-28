@@ -15,19 +15,20 @@ from ..const import (
   DOMAIN,
   EVENT_CURRENT_DAY_RATES,
   EVENT_NEXT_DAY_RATES,
+  REFRESH_RATE_IN_MINUTES_RATES,
 )
 
 from ..api_client import CarbonIntensityApiClient
-from . import raise_rate_events
+from . import BaseCoordinatorResult, raise_rate_events
 
 _LOGGER = logging.getLogger(__name__)
 
-class RatesCoordinatorResult:
+class RatesCoordinatorResult(BaseCoordinatorResult):
   last_retrieved: datetime
   rates: list
 
-  def __init__(self, last_retrieved: datetime, rates: list):
-    self.last_retrieved = last_retrieved
+  def __init__(self, last_retrieved: datetime, request_attempts: int, rates: list):
+    super().__init__(last_retrieved, request_attempts, REFRESH_RATE_IN_MINUTES_RATES)
     self.rates = rates
 
 async def async_refresh_rates_data(
@@ -40,15 +41,30 @@ async def async_refresh_rates_data(
   period_from = as_utc(current.replace(hour=0, minute=0, second=0, microsecond=0))
 
   new_rates: list = None
-  if ((current.minute % 30) == 0 or 
-      existing_rates_result is None or
-      existing_rates_result.rates is None or
-      len(existing_rates_result.rates) < 1 or
+  if (existing_rates_result is None or
+      current >= existing_rates_result.next_refresh or
       existing_rates_result.rates[-1]["from"] < period_from):
     try:
-      new_rates = await client.async_get_intensity_and_generation_rates(period_from, region) 
+      new_rates = await client.async_get_national_intensity_and_generation_rates(period_from) if region == "0" else await client.async_get_intensity_and_generation_rates(period_from, region) 
     except:
       _LOGGER.debug(f'Failed to retrieve rates for {region}')
+      if (existing_rates_result is not None):
+        result = RatesCoordinatorResult(
+          existing_rates_result.last_retrieved,
+          existing_rates_result.request_attempts + 1,
+          existing_rates_result.rates
+        )
+        _LOGGER.warning(f"Failed to retrieve new carbon intensity rates - using cached rates. Next attempt at {result.next_refresh}")
+      else:
+        # We want to force into our fallback mode
+        result = RatesCoordinatorResult(
+          current - timedelta(minutes=REFRESH_RATE_IN_MINUTES_RATES),
+          2,
+          None
+        )
+        _LOGGER.warning(f"Failed to retrieve new carbon intensity rates. Next attempt at {result.next_refresh}")
+
+      return result
     
   if new_rates is not None:
     _LOGGER.debug(f'Rates retrieved for {region}')
@@ -60,7 +76,7 @@ async def async_refresh_rates_data(
                       EVENT_CURRENT_DAY_RATES,
                       EVENT_NEXT_DAY_RATES)
     
-    return RatesCoordinatorResult(current, new_rates)
+    return RatesCoordinatorResult(current, 1, new_rates)
   
   return existing_rates_result
 

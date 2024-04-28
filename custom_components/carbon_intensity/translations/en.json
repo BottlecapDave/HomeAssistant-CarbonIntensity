@@ -19,7 +19,9 @@
           "start_time": "The minimum time to start the device",
           "end_time": "The maximum time to stop the device",
           "offset": "The offset to apply to the scheduled block to be considered active",
-          "rolling_target": "Re-evaluate multiple times a day"
+          "rolling_target": "Re-evaluate multiple times a day",
+          "last_rates": "Find last applicable rates",
+          "maximum_intensity": "The optional maximum intensity for target hours"
         }
       }
     },
@@ -27,7 +29,9 @@
       "invalid_target_hours": "Target hours must be in half hour increments.",
       "invalid_target_name": "Name must only include lower case alpha characters and underscore (e.g. my_target)",
       "invalid_target_time": "Must be in the format HH:MM",
-      "invalid_offset": "Offset must be in the form of HH:MM:SS with an optional negative symbol"
+      "invalid_offset": "Offset must be in the form of HH:MM:SS with an optional negative symbol",
+      "invalid_hours_time_frame": "The target hours do not fit in the elected target time frame",
+      "invalid_intensity": "Intensity must be a positive or negative float"
     },
     "abort": {
       "not_supported": "Configuration for target rates is not supported at the moment."
@@ -50,14 +54,18 @@
           "start_time": "The minimum time to start the device",
           "end_time": "The maximum time to stop the device",
           "offset": "The offset to apply to the scheduled block to be considered active",
-          "rolling_target": "Re-evaluate multiple times a day"
+          "rolling_target": "Re-evaluate multiple times a day",
+          "last_rates": "Find last applicable rates",
+          "maximum_intensity": "The optional maximum intensity for target hours"
         }
       }
     },
     "error": {
       "invalid_target_hours": "Target hours must be in half hour increments.",
       "invalid_target_time": "Must be in the format HH:MM",
-      "invalid_offset": "Offset must be in the form of HH:MM:SS with an optional negative symbol"
+      "invalid_offset": "Offset must be in the form of HH:MM:SS with an optional negative symbol",
+      "invalid_hours_time_frame": "The target hours do not fit in the elected target time frame",
+      "invalid_intensity": "Intensity must be a positive or negative float"
     },
     "abort": {
       "not_supported": "Configuration for target rates is not supported at the moment."

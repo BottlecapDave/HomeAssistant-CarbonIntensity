@@ -5,6 +5,7 @@ from homeassistant.core import HomeAssistant, callback
 from homeassistant.components.event import (
     EventEntity,
 )
+from homeassistant.helpers.entity import generate_entity_id
 from homeassistant.helpers.restore_state import RestoreEntity
 
 from ..const import EVENT_NEXT_DAY_RATES
@@ -28,6 +29,7 @@ class CarbonIntensityNextDayRates(EventEntity, RestoreEntity):
     self._last_updated = None
 
     self._attr_event_types = [EVENT_NEXT_DAY_RATES]
+    self.entity_id = generate_entity_id("event.{}", self.unique_id, hass=hass)
 
   @property
   def unique_id(self):
@@ -37,7 +39,7 @@ class CarbonIntensityNextDayRates(EventEntity, RestoreEntity):
   @property
   def name(self):
     """Name of the sensor."""
-    return f"Carbon Intensity {get_region_from_id(self._region)} Next Day Rates"
+    return f"Next Day Rates ({get_region_from_id(self._region)})"
   
   @property
   def entity_registry_enabled_default(self) -> bool:

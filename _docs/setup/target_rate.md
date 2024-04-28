@@ -36,7 +36,27 @@ You may want your target rate sensors to turn on a period of time before the opt
 
 Depending on how you're going to use the sensor, you might want the best period to be found throughout the day so it's always available. For example, you might be using the sensor to turn on a washing machine which you might want to come on at the best time regardless of when you use the washing machine. This can result in the sensor coming on more than the target hours, and therefore should be used in conjuction with other sensors. You can activate this behaviour by setting the `Re-evaluate multiple times a day` checkbox.
 
+!!! warning
+
+    Using this can result in the sensor coming on more than the target hours, and therefore should be used in conjunction with other sensors. 
+
 However, you might also only want the target time to occur once a day so once the best time for that day has passed it won't turn on again. For example, you might be using the sensor to turn on something that isn't time critical and could wait till the next day like a charger. This is the default behaviour and is done by not setting the `Re-evaluate multiple times a day` checkbox.
+
+!!! info
+
+    The next set of target times will not be calculated until all target times are in the past. This will have an effect on the `next` set of attributes on the sensor.
+
+### Latest Period
+
+Depending on how you're going to use the sensor, you might want the best period at the latest possible time. For example, you might be using the sensor to turn on an immersion heater which you'll want to come on at the end of the cheapest found period. 
+
+For instance if you turn this on and the cheapest period is between `2023-01-01T00:30` and `2023-01-01T05:00` and your target rate is for 1 hour, then it will come on between `2023-01-01T04:00` and `2023-01-01T05:00` instead of `2023-01-01T00:30` and `2023-01-01T01:30`.
+
+This feature is toggled on by the `Find last applicable rates` checkbox.
+
+### Maximum Intensity
+
+There may be times that you want the target rate sensors to not take into account intensity rates that are above a certain value (e.g. you don't want the sensor to turn on when carbon intensity is crazy).
 
 ## Attributes
 
@@ -47,11 +67,27 @@ The following attributes are available on each sensor
 | `name` | `string` | The name of the sensor. |
 | `hours` | `string` | The total hours are being discovered.  |
 | `type` | `string` | The type/mode for the target rate sensor. This will be either `continuous` or `intermittent`. |
+| `rolling_target` | `boolean` | Determines if `Re-evaluate multiple times a day` is turned on for the sensor. |
+| `last_rates` | `boolean` | Determines if `Find last applicable rates` is turned off for the sensor. |
 | `offset` | `string` | The offset configured for the sensor. |
 | `start_time` | `string` | The start time configured for the sensor. |
 | `end_time` | `string` | The end time configured for the sensor. |
-| `target_times` | `list` | The discovered times and rates the sensor will come on for. |
+| `rates_incomplete` | `boolean` | True if rate information is incomplete and therefore target times cannot be calculated; False otherwise. |
+| `target_times` | `array` | The discovered times and rates the sensor will come on for. |
+| `overall_average_intensity` | `float` | The average intensity of all discovered times during the current **24 hour period**. |
+| `overall_min_intensity` | `float` | The minimum intensity of all discovered times during the current **24 hour period**. |
+| `overall_max_intensity` | `float` | The maximum intensity of all discovered times during the current **24 hour period**. |
+| `current_duration_in_hours` | `float` | The duration the sensor will be on for, for the current continuous discovered period. For `continuous` sensors, this will be the entire period. For `intermittent` sensors, this could be the entire period or a portion of it, depending on the discovered times. This could be `none`/`unknown` if the sensor is not currently in a discovered period. |
+| `current_average_intensity` | `float` | The average intensity for the current continuous discovered period. This could be `none`/`unknown` if the sensor is not currently in a discovered period. |
+| `current_min_intensity` | `float` | The min intensity for the current continuous discovered period. This could be `none`/`unknown` if the sensor is not currently in a discovered period. |
+| `current_max_intensity` | `float` | The max intensity for the current continuous discovered period. This could be `none`/`unknown` if the sensor is not currently in a discovered period. |
 | `next_time` | `datetime` | The next date/time the sensor will come on. This will only be populated if `target_times` has been calculated and at least one period/block is in the future. |
+| `next_duration_in_hours` | `float` | The duration the sensor will be on for, for the next continuous discovered period. For `continuous` sensors, this will be the entire period. For `intermittent` sensors, this could be the entire period or a portion of it, depending on the discovered times. This will only be populated if `target_times` has been calculated and at least one period/block is in the future. |
+| `next_average_intensity` | `float` | The average intensity for the next continuous discovered period. For `continuous` sensors, this will be the entire period. For `intermittent` sensors, this could be the entire period or a portion of it, depending on the discovered times. This will only be populated if `target_times` has been calculated and at least one period/block is in the future. |
+| `next_min_intensity` | `float` | The average intensity for the next continuous discovered period. This will only be populated if `target_times` has been calculated and at least one period/block is in the future. |
+| `next_max_intensity` | `float` | The average intensity for the next continuous discovered period. This will only be populated if `target_times` has been calculated and at least one period/block is in the future. |
+| `target_times_last_evaluated` | datetime | The datetime the target times collection was last evaluated. This will occur if all previous target times are in the past and all rates are available for the requested future time period. For example, if you are targeting 16:00 (day 1) to 16:00 (day 2), and you only have rates up to 23:00 (day 1), then the target rates won't be calculated. |
+| `last_evaluated` | `datetime` | The datetime the state of the sensor was last evaluated based on the current specified target times. This should update every minute |
 
 For each target time, you will get the following attributes
 

@@ -9,11 +9,3 @@ def get_current_rate(current: datetime, rates: list):
         break
 
   return current_rate
-
-  if current_rate != None:
-    self._attributes = {
-      "rate": current_rate,
-    }
-    
-    if current_rate != None:
-      self._state = current_rate["intensity_forecast"]
