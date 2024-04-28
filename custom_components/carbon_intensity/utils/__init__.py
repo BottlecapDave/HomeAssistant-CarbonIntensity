@@ -23,6 +23,7 @@ def apply_offset(date_time, offset, inverse = False):
     
 def get_region_options():
   return {
+    "0": "National",
     "1": "North Scotland",
     "2": "South Scotland",
     "3": "North West England",

@@ -25,6 +25,7 @@ class CarbonIntensityCurrentRating(CoordinatorEntity, RestoreSensor):
 
     self._state = None
     self._region = region
+    self._attributes = {}
 
     self.entity_id = generate_entity_id("sensor.{}", self.unique_id, hass=hass)
 
