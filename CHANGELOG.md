@@ -1,3 +1,25 @@
+# [3.0.0](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/compare/v2.0.2...v3.0.0) (2024-04-28)
+
+
+### Bug Fixes
+
+* Fixed registration of update target rate config service ([02f89ee](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/commit/02f89ee377b4ee7add761fb8b2781ce1917a240b))
+* Updated default naming of entities to be better for areas of HA where space is limited ([4f749a3](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/commit/4f749a390267f77ea96ced359e7b523b00dab0b4))
+* updated timestamps in attributes and events to be in local time ([eba53bd](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/commit/eba53bdce515b29bed48aa14a5b08a11c2bde399))
+
+
+### Features
+
+* Added support for finding latest intensity blocks and defining maximum intensity for target rate sensors ([f0f7aa7](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/commit/f0f7aa790d78b19cdf86fdcda990fdbf98c07f58))
+* Added support for national carbon intensity rates ([f3877e1](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/commit/f3877e1f407bca80fc4e9eccf1d74c8e85aabf7f))
+
+
+### BREAKING CHANGES
+
+* If you are relying on the current default names, you will need to adjust accordingly. This will not effect the entity ids, so no automations should be effected.
+* If you are relying on timestamps in attributes and events to be in UTC, then you'll need to adjust
+accordingly
+
 ## [2.0.2](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/compare/v2.0.1...v2.0.2) (2024-02-01)
 
 
