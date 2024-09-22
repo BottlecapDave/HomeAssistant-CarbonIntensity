@@ -5,6 +5,13 @@
 
 * Fixed HA warning for registering an entity service with a non entity service schema (15 minutes dev time) ([9410426](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/commit/9410426d48788e7a632291e3239e9e9ecbac9a27))
 
+## [3.0.1](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/compare/v3.0.0...v3.0.1) (2024-09-22)
+
+
+### Bug Fixes
+
+* Fixed HA warning for registering an entity service with a non entity service schema (15 minutes dev time) ([9410426](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/commit/9410426d48788e7a632291e3239e9e9ecbac9a27))
+
 # [3.0.0](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/compare/v2.0.2...v3.0.0) (2024-04-28)
 
 
