@@ -26,6 +26,7 @@ jobs:
       - name: HACS Action
         uses: "hacs/action@main"
         with:
+          ignore: "brands"
           category: "integration"
   unit_tests:
     if: ${{ github.event_name != 'schedule' || github.repository_owner == 'BottlecapDave' }}
