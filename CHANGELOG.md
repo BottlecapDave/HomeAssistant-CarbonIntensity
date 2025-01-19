@@ -1,3 +1,12 @@
+## [3.0.2](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/compare/v3.0.1...v3.0.2) (2025-01-19)
+
+
+### Bug Fixes
+
+* Fixed issue when API returns empty results ([fc67258](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/commit/fc6725896846db382ed5f656867d93c7f4d1250f))
+* Fixed issue with config overrides not updating sensors (5 minutes dev time) ([ed3b602](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/commit/ed3b602ee4585b4ac6149f66bf0f68bcc86767e5))
+* Fixed issue with event sensors not restoring properly (15 minutes dev time) ([101ddf7](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/commit/101ddf78200f26e0f136ff0e2a92ac08abb12b95))
+
 ## [3.0.1](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/compare/v3.0.0...v3.0.1) (2024-09-22)
 
 
