@@ -43,6 +43,8 @@ async def async_refresh_rates_data(
   new_rates: list = None
   if (existing_rates_result is None or
       current >= existing_rates_result.next_refresh or
+      existing_rates_result.rates is None or
+      len(existing_rates_result.rates) < 1 or
       existing_rates_result.rates[-1]["from"] < period_from):
     try:
       new_rates = await client.async_get_national_intensity_and_generation_rates(period_from) if region == "0" else await client.async_get_intensity_and_generation_rates(period_from, region) 

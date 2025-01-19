@@ -18,7 +18,12 @@ async def async_setup_entry(hass, entry):
   hass.data.setdefault(DOMAIN, {})
 
   if CONFIG_MAIN_REGION in entry.data:
-    await async_setup_dependencies(hass, entry.data)
+    config = dict(entry.data)
+
+    if entry.options:
+      config.update(entry.options)
+
+    await async_setup_dependencies(hass, config)
 
     await hass.config_entries.async_forward_entry_setups(entry, ACCOUNT_PLATFORMS)
 
