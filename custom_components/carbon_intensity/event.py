@@ -12,7 +12,12 @@ _LOGGER = logging.getLogger(__name__)
 async def async_setup_entry(hass, entry, async_add_entities):
   """Setup sensors based on our entry"""
 
-  if CONFIG_MAIN_REGION in entry.data:
+  config = dict(entry.data)
+
+  if entry.options:
+    config.update(entry.options)
+
+  if CONFIG_MAIN_REGION in config:
     await async_setup_main_sensors(hass, entry, async_add_entities)
 
   return True
