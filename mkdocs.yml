@@ -6,9 +6,7 @@ nav:
   - Home: index.md
   - Setup:
     - ./setup/core.md
-    - ./setup/target_rate.md
   - entities.md
-  - services.md
   - events.md
   - faq.md
   - sponsorship.md
