@@ -8,33 +8,7 @@
         "data": {
           "region": "Region"
         }
-      },
-      "target_rate": {
-        "title": "Setup Target Rate",
-        "description": "Setup a target rate period. Continuous target will find the lowest intensity within a combined period for your target hours. While intermittent will find the periods with the lowest intensity with potential gaps, which when combined will meet your target hours. Full documentation can be found at https://bottlecapdave.github.io/HomeAssistant-CarbonIntensity/setup/target_rate",
-        "data": {
-          "name": "The name of your target",
-          "hours": "The hours you require.",
-          "type": "The type of target you're after",
-          "start_time": "The minimum time to start the device",
-          "end_time": "The maximum time to stop the device",
-          "offset": "The offset to apply to the scheduled block to be considered active",
-          "rolling_target": "Re-evaluate multiple times a day",
-          "last_rates": "Find last applicable rates",
-          "maximum_intensity": "The optional maximum intensity for target hours"
-        }
       }
-    },
-    "error": {
-      "invalid_target_hours": "Target hours must be in half hour increments.",
-      "invalid_target_name": "Name must only include lower case alpha characters and underscore (e.g. my_target)",
-      "invalid_target_time": "Must be in the format HH:MM",
-      "invalid_offset": "Offset must be in the form of HH:MM:SS with an optional negative symbol",
-      "invalid_hours_time_frame": "The target hours do not fit in the elected target time frame",
-      "invalid_intensity": "Intensity must be a positive or negative float"
-    },
-    "abort": {
-      "not_supported": "Configuration for target rates is not supported at the moment."
     }
   },
   "options": {
@@ -45,30 +19,7 @@
         "data": {
           "region": "Region"
         }
-      },
-      "target_rate": {
-        "title": "Update Target Rate",
-        "description": "Update the settings for your target rate sensor. Full documentation can be found at https://bottlecapdave.github.io/HomeAssistant-CarbonIntensity/setup/target_rate",
-        "data": {
-          "hours": "The hours you require.",
-          "start_time": "The minimum time to start the device",
-          "end_time": "The maximum time to stop the device",
-          "offset": "The offset to apply to the scheduled block to be considered active",
-          "rolling_target": "Re-evaluate multiple times a day",
-          "last_rates": "Find last applicable rates",
-          "maximum_intensity": "The optional maximum intensity for target hours"
-        }
       }
-    },
-    "error": {
-      "invalid_target_hours": "Target hours must be in half hour increments.",
-      "invalid_target_time": "Must be in the format HH:MM",
-      "invalid_offset": "Offset must be in the form of HH:MM:SS with an optional negative symbol",
-      "invalid_hours_time_frame": "The target hours do not fit in the elected target time frame",
-      "invalid_intensity": "Intensity must be a positive or negative float"
-    },
-    "abort": {
-      "not_supported": "Configuration for target rates is not supported at the moment."
     }
   }
 }
