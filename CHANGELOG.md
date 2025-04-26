@@ -1,3 +1,16 @@
+# [4.0.0](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/compare/v3.0.2...v4.0.0) (2025-04-26)
+
+
+### Features
+
+* removed target rate sensors as this feature is now provided by a separate integration ([b73f616](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/commit/b73f6161e7cff70af3f3ccdc5e65e12e10ea03ef))
+
+
+### BREAKING CHANGES
+
+* Target rate sensors are no longer provided by the integration. The full reasoning and alternative
+can be found at https://bottlecapdave.github.io/HomeAssistant-CarbonIntensity/faq/
+
 ## [3.0.2](https://github.com/BottlecapDave/HomeAssistant-CarbonIntensity/compare/v3.0.1...v3.0.2) (2025-01-19)
 
 
